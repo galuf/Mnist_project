@@ -39,7 +39,7 @@ public class DrawAppPrueba extends JPanel{
     JButton boton1;
     
     File archivo = new File("");
-    String ruta = archivo.getAbsolutePath().toString() + "/img/my_img.jpg";
+    String ruta = archivo.getAbsolutePath().toString() + "/img/my_img.png";
     
     byte[] img;
     FileOutputStream salida;
