@@ -24,7 +24,7 @@ public class prueba03 {
                             {1,1,0,1,0,1,1,0,1,1,0,1,1,1,0},//letra 0
                             };
 
-        ReLU rn = new ReLU(15,15,10,5,3,2);
+        ReLU rn = new ReLU(false,15,15,10,5,3,2);
         rn.entrenamiento(ingreso, salida,100000);
         rn.prueba(evaluar);
     }

@@ -98,10 +98,62 @@ public class ReLU{
     return suma/array.length;
   }
 
-  public ReLU(int ...a){ // Spreat operator
+  public double[][] matrizPeso(File peso){
+    
+    FileInputStream fis = null;
+    DataInputStream entrada = null;
+    double [][] matrizError = {{0,0,0},{0,0,0}};
+    try {
+        fis = new FileInputStream(peso);
+        entrada = new DataInputStream(fis);
+        int filas = entrada.readInt();            //se lee el primer entero del fichero                           
+        int columnas = entrada.readInt();
+        System.out.println(filas+" "+columnas);
+        double [][] matriz = new double[filas][columnas];         //se lee el segundo entero del fichero
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {  // se leen los double y se guarda en una matriz                
+                matriz[i][j] = entrada.readDouble();
+            }
+        }
+        return matriz;
+    } catch (FileNotFoundException e) {
+        System.out.println(e.getMessage());
+    } catch (EOFException e) {
+        System.out.println("Fin de fichero");
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+    } finally {
+        try {
+            if (fis != null) {
+                fis.close();
+            }
+            if (entrada != null) {
+                entrada.close();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());                                                               
+        }
+    }
+    return matrizError;
+  }
+
+  public void read_pesos(){
+    for(int i=0;i<array.length - 1;i++){
+      File fiche = new File(System.getProperty("user.dir")+"//w"+(i+1)+".dat");
+      pesos.add(matrizPeso(fiche));
+    }
+  }
+
+  public ReLU(Boolean leer, int ...a){ // Spreat operator
     this.array = a;
-    for(int i=0;i<a.length-1;i++){
-      this.pesos.add(randPeso(a[i], a[i+1]));
+
+    if(!leer){
+      System.out.println("Entre random ");
+      for(int i=0;i<a.length-1;i++){
+        this.pesos.add(randPeso(a[i], a[i+1]));
+      }
+    }else{
+      read_pesos();
     }
   } 
 
@@ -129,6 +181,14 @@ public class ReLU{
       }
       System.out.println();
     }
+  }
+
+  public void show_array(double[] d){
+    for(int i=0;i<d.length;i++){
+      System.out.print(d[i]);
+      System.out.print(" ");
+    }
+    System.out.println(" ");
   }
 
   public double[][] dotArMa(double[] a, double[][] b){
@@ -282,9 +342,7 @@ public class ReLU{
     this.input = input; // sin Bias
     this.output = output;
 
-    double costo = 0.0;
-    double errorProm = 1.0;
-    for(int v=0;  errorProm >= 0.0005 || v<veces;v++){ //numero de epocas 
+    for(int v=0;v<veces;v++){ //numero de epocas 
       // for(int i=0;i<array.length-1;i++){
       //   mostrar(pesos.get(i));
       //   System.out.println();
@@ -292,8 +350,6 @@ public class ReLU{
       for(int i=0;i<input.length;i++){
         entrenar(i);
       }
-      errorProm = errorPromedio(errores.get(0));
-      if(v%1000 == 0) showErrors();
     }
   } 
 
@@ -327,66 +383,43 @@ public class ReLU{
     errores.clear();
     nodos.clear();
     nodos.add(input[i]);
-    //nodos.add(onesRow(matrizSigmoidea(dotArMa(nodos.get(0),pesos.get(0))))[0]);
+//    nodos.add(onesRow(matrizSigmoidea(dotArMa(nodos.get(0),pesos.get(0))))[0]);
     for(int ii=1;ii<array.length;ii++){
-      if(ii == array.length-1){
-        nodos.add(
-          matrizSigmoidea(
-            dotArMa(nodos.get(ii-1),
-                    pesos.get(ii-1)
-            )
-          )[0]
-        );
-      }else{
-        nodos.add(
-          matrizReLU(
-            dotArMa( // producto de Array por matriz
-              nodos.get(ii-1),
-              pesos.get(ii-1)
-            )
-          )[0]
-        );
-      }
+      nodos.add(
+        matrizSigmoidea(dotArMa(nodos.get(ii-1),
+        pesos.get(ii-1)))[0]);
     }
+    errores.add(prodArrays(prodArrays(restaArrays(output[i], nodos.get(array.length-1)),nodos.get(array.length-1)),sumEscalarArray(1,nodos.get(array.length-1))));
     // errores.add(
-    //   prodArrays(
-    //     prodArrays(
-    //       restaArrays(
-    //         output[i], 
-    //         nodos.get(array.length-1)),
-    //       nodos.get(array.length-1)),
-    //     sumEscalarArray(1,nodos.get(array.length-1))));
-    errores.add(
-      prodArrays(
-        dvectorSigmoidea(nodos.get(array.length-1)), 
-        restaArrays(
-          output[i],
-          nodos.get(array.length-1)
-        )
-      )
-    );
+    //   restaArrays(
+    //     output[i], 
+    //     nodos.get(array.length-1)
+    //   )
+    // );
     
     for(int ii=1;ii<array.length-1;ii++){
-  
       errores.add(
         prodArrays(
           transpuesta(
             dotMaAr(pesos.get(pesos.size()-ii),
                     errores.get(ii-1))
           )[0],
-          dReLu(
-            nodos.get(array.length-1-ii)
+          prodArrays(
+            nodos.get(array.length-1-ii),
+            sumEscalarArray(
+              1,
+              nodos.get(array.length-1-ii)
+            )
           )
         )
       );
-      
     }
     for(int ii = 0; ii<pesos.size();ii++){
       //pesos.get(ii) + errores(errores.size()-1-ii)*nodos.get(1+ii);
       pesos.set(ii,
         sumMatriz(
           pesos.get(ii),
-          prodEsc(0.05, 
+          prodEsc(0.1, 
             dotArray(
               nodos.get(ii),
               errores.get(errores.size()-1-ii)
@@ -439,6 +472,9 @@ public class ReLU{
       System.out.println("Epoca: " + v);
       for(int i=0;i<input.length;i++){
         entrenar(i);
+      }
+      if(v == 4){
+        show_array(nodos.get(nodos.size()-1)); 
       }
     }
   }

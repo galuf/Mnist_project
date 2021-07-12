@@ -13,8 +13,8 @@ public class Test {
     public double[][] output; // 5000*10
     public double[][] evaluar;
 
-    public int buenas = 0;
-    public int total = 5000;
+    public double buenas = 0.0;
+    public double total = 5000.0;
 
     public Test(int ...a){ // Spreat operator
       this.array = a;
@@ -168,9 +168,10 @@ public class Test {
       for(int i = 0; i<entrada.length;i++){
         test.clear();
         test.add(entrada[i]);
+        //show_array(entrada[i]);
         //System.out.println(entrada.length);  
         for(int ii=1;ii<array.length;ii++){
-          if(ii == array.length-1){
+          
             test.add(
               matrizSigmoidea(
                 dotArMa(test.get(ii-1),
@@ -178,16 +179,9 @@ public class Test {
                 )
               )[0]
             );
-          }else{
-            test.add(
-              matrizReLU(
-                dotArMa( // producto de Array por matriz
-                  test.get(ii-1),
-                  pesos.get(ii-1)
-                )
-              )[0]
-            );
-          }
+          
+
+            
         }
 
         salida.add(test.get(test.size()-1));
@@ -204,7 +198,6 @@ public class Test {
       for(int i=0;i<entrada.length;i++){
         mayor(salida.get(i),this.output[i]);
       }
-
       return (this.buenas/this.total)*100;
     }
 
@@ -221,11 +214,28 @@ public class Test {
         }
       }
       
-      if(output_i[index] == 1){
-        this.buenas+=1;
+      if(output_i[index] == 1.0){
+        this.buenas = this.buenas + 1;
+        //System.out.println(this.buenas);
       }
     }  
     
+    public void show_array(double[] d){
+      for(int i=0;i<d.length;i++){
+        System.out.print(d[i]);
+        System.out.print(" ");
+      }
+      System.out.println(" ");
+    }
+
+    public void show(int num){
+      for(int i=0;i<num;i++){
+        //System.out.print("Real : ");
+        //show_array(output[i]);
+        //System.out.print("Salida: ");
+        show_array(salida.get(i));
+      }
+    }
     // public double[] mayores_simple(){
     //   double m[] = new double[2];
     // }

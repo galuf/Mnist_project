@@ -26,12 +26,13 @@ public class Principal {
         //ejec.executeTrain();
         //ejec.executeTest();
 
-//        ReLU prob = new ReLU(784,500,200,70,10);
-//        prob.entrenamiento_file("train_x.csv", "train_y.csv", 1);
-//        prob.guardaPesos();
+        ReLU prob = new ReLU(false,784,500,200,70,25,10);
+        prob.entrenamiento_file("train_x.csv", "train_y.csv", 5);
+        prob.guardaPesos();
 
-        Test prueba = new Test(784,500,200,70,10);
+        Test prueba = new Test(784,500,200,70,25,10);
         System.out.println(prueba.accuracy("test_x.csv","test_y.csv"));
+        prueba.show(10);
         //prueba.mayores(); -> [1er max,2do maxim]
     }
 }

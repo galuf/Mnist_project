@@ -4,6 +4,5 @@ public class Main {
     DrawApp prueba1 = new DrawApp();
     prueba1.ventana();
 
-    m = prodes.imgPros();
   }
 }
