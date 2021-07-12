@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -23,8 +22,16 @@ public class Principal {
         File archivofinal = new File(rutaarchivoprueba);
         LA.mostrarArray(LA.leerCarpeta(archivofinal));*/
         
-        Ejecutar ejec = new Ejecutar();
-        ejec.executeTrain();
-        ejec.executeTest();
+        //Ejecutar ejec = new Ejecutar();
+        //ejec.executeTrain();
+        //ejec.executeTest();
+
+        ReLU prob = new ReLU(784,500,200,70,10);
+        prob.entrenamiento_file("train_x.csv", "train_y.csv", 1);
+        prob.guardaPesos();
+
+        //Test prueba = new Test(784,500,200,70,10);
+        //prueba.accuracy();
+        //prueba.mayores(); -> [1er max,2do maxim]
     }
 }

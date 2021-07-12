@@ -2,6 +2,9 @@
 //Red Neuronal generico sin Bias
 
 import java.util.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.*; 
 
 public class ReLU{
 
@@ -100,10 +103,6 @@ public class ReLU{
     for(int i=0;i<a.length-1;i++){
       this.pesos.add(randPeso(a[i], a[i+1]));
     }
-    // double[][] peso1 = {{2.0,1.0},{-2.0,3.0}};
-    // double[][] peso2 = {{3},{-2}}; 
-    // this.pesos.add(peso1);
-    // this.pesos.add(peso2);
   } 
 
   public void showPesos(){
@@ -399,18 +398,46 @@ public class ReLU{
 
   }
 
-  public double[][] read_file(String ruta){
-    
+  public double[][] read_file(String rutaFile,int x){
+        
+    double[][] matrizLectura = new double[x][];
+          
+    try (BufferedReader in = new BufferedReader( new FileReader(rutaFile))){ 
+      String line = in.readLine(); 
+      int k=0;
+      while (line != null) {                
+        String [] arrStrings = line.split(",");
+        int i=0;
+        matrizLectura[k] = new double[arrStrings.length];
+        
+        for(String s: arrStrings){
+          matrizLectura[k][i] = Double.parseDouble(s);
+          i++;
+        }
+        line = in.readLine();
+        k++;
+      }
+    } catch (IOException e){
+      System.out.println(e);
+    }
+          
+    return matrizLectura;
   }
 
   public void entrenamiento_file(String ruta_x, String ruta_y, int veces){
-    this.input = read_file(ruta_x); // sin Bias [10000][784]
-    this.output = read_file(ruta_y); // [10000][10]
+    this.input = read_file(ruta_x,10000); // sin Bias [10000][784]
+    this.output = read_file(ruta_y,10000); // [10000][10]
 
+    // System.out.println("Train");
+    // System.out.println(this.input.length);
+    // System.out.println(this.input[0].length);
+    
+    // System.out.println("Test");
+    // System.out.println(this.output.length);
+    // System.out.println(this.output[0].length);
     for(int v=0; v<veces;v++){ //numero de epocas 
-      
+      System.out.println("Epoca: " + v);
       for(int i=0;i<input.length;i++){
-        
         entrenar(i);
       }
     }
