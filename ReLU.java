@@ -419,7 +419,7 @@ public class ReLU{
       pesos.set(ii,
         sumMatriz(
           pesos.get(ii),
-          prodEsc(0.1, 
+          prodEsc(0.05, 
             dotArray(
               nodos.get(ii),
               errores.get(errores.size()-1-ii)

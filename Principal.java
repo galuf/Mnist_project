@@ -25,14 +25,15 @@ public class Principal {
         //Ejecutar ejec = new Ejecutar();
         //ejec.executeTrain();
         //ejec.executeTest();
-
-        ReLU prob = new ReLU(false,784,500,200,70,25,10);
-        prob.entrenamiento_file("train_x.csv", "train_y.csv", 5);
-        prob.guardaPesos();
+        //(784,500,200,70,25,10)
+        //ReLU prob = new ReLU(false,784,700,350,100,50,10);
+        //prob.entrenamiento_file("train_x.csv", "train_y.csv", 25);
+        //prob.guardaPesos();
 
         Test prueba = new Test(784,500,200,70,25,10);
-        System.out.println(prueba.accuracy("test_x.csv","test_y.csv"));
-        prueba.show(10);
+        System.out.println(prueba.accuracy("test_x.csv","test_y.csv",5000));
+        System.out.println(prueba.accuracy("train_x.csv","train_y.csv",10000));
+        //prueba.show(10);
         //prueba.mayores(); -> [1er max,2do maxim]
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 }

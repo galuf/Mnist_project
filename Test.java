@@ -9,11 +9,13 @@ public class Test {
     public ArrayList<double[][]> testeo = new ArrayList<double[][]>();       
 
     public int[] array;
+    public int[] errors;
     public double[][] entrada; //5000*784
     public double[][] output; // 5000*10
     public double[][] evaluar;
 
     public double buenas = 0.0;
+    public double malas = 0.0;
     public double total = 5000.0;
 
     public Test(int ...a){ // Spreat operator
@@ -189,22 +191,33 @@ public class Test {
 
     }
     
-    public double accuracy(String ruta_x,String ruta_y){
-      this.entrada = read_file(ruta_x,5000); //[5000][784]
-      this.output = read_file(ruta_y,5000); // [5000][10]
+    public double accuracy(String ruta_x,String ruta_y, int row){
+      this.entrada = read_file(ruta_x,row); //[5000][784]
+      this.output = read_file(ruta_y,row); // [5000][10]
       
+      this.errors = new int[10];
+      for(int i=0;i<10;i++) this.errors[i] = 0;
+
       prueba();
+      this.buenas = 0;
+      this.malas = 0;
 
       for(int i=0;i<entrada.length;i++){
         mayor(salida.get(i),this.output[i]);
       }
-      return (this.buenas/this.total)*100;
+      for(int i=0;i<10;i++){
+        System.out.print(this.errors[i] + " ");
+      }
+      System.out.println("");
+      System.out.println("las buenas son: " + this.buenas);
+      System.out.println("las malas son: " + this.malas);
+      return (this.buenas/row)*100;
     }
 
     public void mayor(double [] numeros, double[] output_i){
-      
       //numero => [0.1,.02,0.3,.03,]
       //[0.0.0.0.1.0.0.0.0]
+      int ans=0;
       double mayor = -10000;
       int index=0;
       for(int i =0;i<numeros.length;i++){
@@ -213,10 +226,19 @@ public class Test {
           index = i;
         }
       }
-      
+      for(int i=0;i<output_i.length;i++){
+        if(output_i[i] == 1.0){
+          ans = i;
+          break;
+        }
+      }
+
       if(output_i[index] == 1.0){
         this.buenas = this.buenas + 1;
         //System.out.println(this.buenas);
+      }else{
+        this.errors[ans] = this.errors[ans] + 1;
+        this.malas = this.malas + 1;
       }
     }  
     
@@ -230,9 +252,9 @@ public class Test {
 
     public void show(int num){
       for(int i=0;i<num;i++){
-        //System.out.print("Real : ");
-        //show_array(output[i]);
-        //System.out.print("Salida: ");
+        System.out.print("Real : ");
+        show_array(output[i]);
+        System.out.print("Salida: ");
         show_array(salida.get(i));
       }
     }
