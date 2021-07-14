@@ -386,10 +386,30 @@ public class ReLU{
 //    nodos.add(onesRow(matrizSigmoidea(dotArMa(nodos.get(0),pesos.get(0))))[0]);
     for(int ii=1;ii<array.length;ii++){
       nodos.add(
-        matrizSigmoidea(dotArMa(nodos.get(ii-1),
-        pesos.get(ii-1)))[0]);
+        matrizSigmoidea(
+          dotArMa(
+            nodos.get(ii-1),
+            pesos.get(ii-1)
+          )
+        )[0]
+      );
     }
-    errores.add(prodArrays(prodArrays(restaArrays(output[i], nodos.get(array.length-1)),nodos.get(array.length-1)),sumEscalarArray(1,nodos.get(array.length-1))));
+    // FordWard -> Paso hacia adelante
+    
+    errores.add(
+      prodArrays(
+        prodArrays(
+          restaArrays(
+            output[i], 
+            nodos.get(array.length-1)
+          ),
+          nodos.get(array.length-1)
+        ),
+        sumEscalarArray(1,
+                        nodos.get(array.length-1)
+        )
+      )
+    );
     // errores.add(
     //   restaArrays(
     //     output[i], 
@@ -397,6 +417,7 @@ public class ReLU{
     //   )
     // );
     
+    //BACKPROPAGATIONS METODO
     for(int ii=1;ii<array.length-1;ii++){
       errores.add(
         prodArrays(
@@ -473,9 +494,6 @@ public class ReLU{
       for(int i=0;i<input.length;i++){
         entrenar(i);
       }
-      if(v == 4){
-        show_array(nodos.get(nodos.size()-1)); 
-      }
     }
   }
 
@@ -522,4 +540,5 @@ public class ReLU{
     }
     System.out.println("Pesos Guardados");
   }
+
 }
