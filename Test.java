@@ -40,7 +40,7 @@ public class Test {
             entrada = new DataInputStream(fis);
             int filas = entrada.readInt();            //se lee el primer entero del fichero                           
             int columnas = entrada.readInt();
-            System.out.println(filas+" "+columnas);
+            //System.out.println(filas+" "+columnas);
             double [][] matriz = new double[filas][columnas];         //se lee el segundo entero del fichero
             for (int i = 0; i < filas; i++) {
                 for (int j = 0; j < columnas; j++) {  // se leen los double y se guarda en una matriz                
@@ -205,6 +205,7 @@ public class Test {
       for(int i=0;i<entrada.length;i++){
         mayor(salida.get(i),this.output[i]);
       }
+
       for(int i=0;i<10;i++){
         System.out.print(this.errors[i] + " ");
       }
@@ -220,19 +221,23 @@ public class Test {
       int ans=0;
       double mayor = -10000;
       int index=0;
+      //  0       1       2   3   4     5     6  
+      //[ 0.001,0.001,0.001,0.9,0.001,0.001,0.001 ]
       for(int i =0;i<numeros.length;i++){
         if(numeros[i] > mayor){
           mayor=numeros[i];
           index = i;
         }
       }
+      //[0,0,0,0,1,0,0,0]
       for(int i=0;i<output_i.length;i++){
         if(output_i[i] == 1.0){
           ans = i;
           break;
         }
       }
-
+      //  0 1 2 3 4 5 6 7 8 9
+      // [0 0 0 0 1 0 0 0 0 0]
       if(output_i[index] == 1.0){
         this.buenas = this.buenas + 1;
         //System.out.println(this.buenas);
@@ -258,11 +263,55 @@ public class Test {
         show_array(salida.get(i));
       }
     }
-    // public double[] mayores_simple(){
-    //   double m[] = new double[2];
-    // }
+    
+    public double[][] mayores_simple(double[] salida){
+      
+      double[][] num = new double[2][2];
+      
+      int index_1 = 0;
+      double mayor = -10000;
+      for(int i =0;i<salida.length;i++){
+        if(salida[i] > mayor){
+          mayor=salida[i];
+          index_1 = i;
+        }
+      }
+      mayor = -10000;
+      int index_2 = 0;
+      for(int i=0;i<salida.length;i++){
+        if(salida[i] > mayor && salida[i] != salida[index_1]){
+          mayor=salida[i];
+          index_2 = i;
+        }
+      }
 
-    // public void test_unit(String ruta){
-    //   //double [][] = 1*784
-    // }
+      num[0][0] = index_1;
+      num[0][1] = salida[index_1];
+      num[1][0] = index_2;
+      num[1][1] = salida[index_2];
+      // [1 0.98]
+      // [5 0.65]
+      return num;
+      // for(double a[] : num){
+      //   for(double b: a){
+      //     System.out.print(b + " ");
+      //   }
+      //   System.out.println("");
+      // }
+      
+    }
+
+    public double[][] test_unit(String ruta) throws IOException{
+      
+      // convertir la img a [] 1*784
+      double [] input_board = new double[28*28];
+      ImagenMatriz m = new ImagenMatriz();
+      input_board =  m.aplanarMatriz(m.leerMatriz(ruta));
+      entrada = new double[1][28*28];
+      entrada[0] = input_board;
+      prueba();
+      // salida.get(0)
+
+      return mayores_simple(salida.get(0));
+    }
 }

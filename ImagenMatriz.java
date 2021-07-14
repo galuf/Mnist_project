@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class ImagenMatriz {
   
   
-  public int [][] leerMatriz(String Ruta) throws IOException {
+  public double [][] leerMatriz(String Ruta) throws IOException {
     InputStream input = new FileInputStream(Ruta);
     ImageInputStream imageInput = ImageIO.createImageInputStream(input);
     BufferedImage imagenL = ImageIO.read(imageInput);
@@ -31,8 +31,8 @@ public class ImagenMatriz {
     int alto = imagenL.getHeight();
     int ancho = imagenL.getWidth();
     
-    int matriz[][] = new int[alto][ancho];
-    int matriz_res[][] = new int[28][28];
+    double matriz[][] = new double[alto][ancho];
+    double matriz_res[][] = new double[28][28];
     
     if(alto>28&&ancho>28){
         for(int y=0; y < alto; y++){
@@ -92,8 +92,8 @@ public class ImagenMatriz {
     return matriz_res;
   }
   
-  public int [] aplanarMatriz(int [][] matriz){
-      int [] arrAplanado = new int[28*28];
+  public double [] aplanarMatriz(double [][] matriz){
+      double [] arrAplanado = new double[28*28];
       int k=0;
       for(int i=0;i<28;i++){
           for(int j=0;j<28;j++){

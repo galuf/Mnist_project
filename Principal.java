@@ -15,7 +15,7 @@ public class Principal {
         //ImagenMatriz im = new ImagenMatriz();
         //im.guardarArchivo(im.aplanarMatriz(im.leerMatriz()));
         
-        //Ventana v1 = new Ventana();
+        Ventana v1 = new Ventana();
         /*LeerArchivos LA = new LeerArchivos();
         File archivoprueba = new File("");
         String rutaarchivoprueba = archivoprueba.getAbsolutePath() + "\\imagenes";
@@ -30,10 +30,15 @@ public class Principal {
         //prob.entrenamiento_file("train_x.csv", "train_y.csv", 25);
         //prob.guardaPesos();
 
-        Test prueba = new Test(784,500,200,70,25,10);
-        System.out.println(prueba.accuracy("test_x.csv","test_y.csv",5000));
-        System.out.println(prueba.accuracy("train_x.csv","train_y.csv",10000));
+        //Test prueba = new Test(784,500,200,70,25,10);
+        /*System.out.println(prueba.accuracy("test_x.csv","test_y.csv",5000));
+        System.out.println(prueba.accuracy("train_x.csv","train_y.csv",10000));*/
         //prueba.show(10);
         //prueba.mayores(); -> [1er max,2do maxim]
+        //double[] a = {10,15,2,9};
+        //prueba.mayores_simple(a);
+
+        //num1 -> porcentaje
+        //num2 -> porcentaje
     }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 }
