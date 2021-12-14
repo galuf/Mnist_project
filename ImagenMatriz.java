@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
@@ -15,13 +9,8 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-/**
- *
- * @author Roderick
- * @author Alex
- */
+
 public class ImagenMatriz {
-  
   
   public double [][] leerMatriz(String Ruta) throws IOException {
     InputStream input = new FileInputStream(Ruta);
@@ -58,11 +47,7 @@ public class ImagenMatriz {
                        
                     }
                 }
-      
-                matriz_res[i][j] = (suma/100 != 0 ? 1 : 0);
-                //System.out.print(matriz_res[i][j] + " ");
             }
-            //System.out.println("");
         }
     }else{
         for(int y=0; y < alto; y++){
@@ -75,18 +60,13 @@ public class ImagenMatriz {
         
             matriz[y][x] = valR;
             
-            }
-            
+            } 
         }
-    
 
         for(int i=0;i<28;i++){
             for(int j=0;j<28;j++){
                 matriz_res[i][j] = matriz[i][j];
-                matriz_res[i][j] = (matriz_res[i][j] != 0 ? 1 : 0);
-                //System.out.print(matriz_res[i][j] + " ");
             }
-            //System.out.println("");
         }
     }
     return matriz_res;
