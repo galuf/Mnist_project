@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class ImagenMatriz {
-  
+
   public double [][] leerMatriz(String Ruta) throws IOException {
     InputStream input = new FileInputStream(Ruta);
     ImageInputStream imageInput = ImageIO.createImageInputStream(input);
@@ -38,17 +38,22 @@ public class ImagenMatriz {
         
         }
 
-        for(int i=0;i<28;i++){
+        for(int i=0;i<28;i++){          
             for(int j=0;j<28;j++){
-                float suma = 0; 
+                //float suma = 0; 
+                double max = 0;
                 for(int x=i*10;x<i*10+10;x++){          
                     for(int y=j*10;y<j*10+10;y++){
-                        suma += matriz[x][y];
-                       
+                        //suma += matriz[x][y];
+                        if (max < matriz[x][y]) {
+                            max = matriz[x][y];
+                        }
                     }
                 }
+                matriz_res[i][j] = max;
             }
         }
+
     }else{
         for(int y=0; y < alto; y++){
             for(int x=0; x < ancho; x++ ){
@@ -69,6 +74,8 @@ public class ImagenMatriz {
             }
         }
     }
+
+    //TODO: Normallizar, revisar convolusion Erronea
     return matriz_res;
   }
   
@@ -84,7 +91,7 @@ public class ImagenMatriz {
       return arrAplanado;
   }
   
-  public void guardarArchivo (int [] arrayAplanado,String Nombre,String iteradorString) throws IOException{
+  public void guardarArchivo (double [] arrayAplanado,String Nombre,String iteradorString) throws IOException{
     try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("ArchivoEntrada"+Nombre,true)))) { 
         String archivoString = Arrays.toString(arrayAplanado);
         String archivoFinal;

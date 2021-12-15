@@ -25,7 +25,7 @@ public class Test {
 
     public void read_pesos(){
       for(int i=0;i<array.length - 1;i++){
-        File fiche = new File(System.getProperty("user.dir")+"//w"+(i+1)+".dat");
+        File fiche = new File(System.getProperty("user.dir")+"/w"+(i+1)+".dat");
         pesos.add(matrizPeso(fiche));
       }
     }
