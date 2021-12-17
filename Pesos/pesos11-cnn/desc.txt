@@ -1,0 +1,7 @@
+500 epocas
+
+(245,200,100,50,10) -> nodos por capa
+
+85.24% test
+
+89.93% train

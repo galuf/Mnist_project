@@ -68,15 +68,15 @@ public class prueba03 {
 
 	public static void main(String[] args) throws IOException{   
 
-		ReLU prob = new ReLU(false,80,40,10);
-    prob.entrenamiento_file("train_x_cnn.csv", "train_y_cnn.csv", 100);
+		ReLU prob = new ReLU(true,245,200,100,50,10);
+    prob.entrenamiento_file("train_x_cnn.csv", "train_y_cnn.csv", 200);
     prob.guardaPesos();
 
 		//Ejecutar eje = new Ejecutar();
 		//eje.executeTrain();
 		//eje.executeTest();
 
-		Test prueba = new Test(80,40,10);
+		Test prueba = new Test(245,200,100,50,10);
     System.out.printf("%.2f\n",prueba.accuracy("test_x_cnn.csv","test_y_cnn.csv",5000));
     System.out.printf("%.2f\n",prueba.accuracy("train_x_cnn.csv","train_y_cnn.csv",10000));
 
